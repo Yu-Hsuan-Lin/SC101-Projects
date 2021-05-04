@@ -1,0 +1,188 @@
+<html>
+<head>
+<title>babynames.py</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #629755; font-style: italic;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #cc7832;}
+.s3 { color: #808080;}
+.s4 { color: #6a8759;}
+.s5 { color: #6897bb;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+babynames.py</font>
+</center></td></tr></table>
+<pre><span class="s0">&quot;&quot;&quot; 
+SC101 Baby Names Project 
+Adapted from Nick Parlante's Baby Names assignment by 
+Jerry Liao. 
+ 
+YOUR DESCRIPTION HERE 
+&quot;&quot;&quot;</span>
+
+<span class="s2">import </span><span class="s1">sys</span>
+
+
+<span class="s2">def </span><span class="s1">add_data_for_name(name_data</span><span class="s2">, </span><span class="s1">year</span><span class="s2">, </span><span class="s1">rank</span><span class="s2">, </span><span class="s1">name):</span>
+    <span class="s0">&quot;&quot;&quot; 
+    Adds the given year and rank to the associated name in the name_data dict. 
+ 
+    Input: 
+        name_data (dict): dict holding baby name data 
+        year (str): the year of the data entry to add 
+        rank (str): the rank of the data entry to add 
+        name (str): the name of the data entry to add 
+ 
+    Output: 
+        This function modifies the name_data dict to store the provided 
+        name, year, and rank. This function does not return any values. 
+ 
+    &quot;&quot;&quot;</span>
+    <span class="s3"># check if name in name_data</span>
+    <span class="s2">if </span><span class="s1">name </span><span class="s2">in </span><span class="s1">name_data:</span>
+        <span class="s3"># if already has rank in a year, change the rank to a smaller one</span>
+        <span class="s2">if </span><span class="s1">year </span><span class="s2">in </span><span class="s1">name_data[name]:</span>
+            <span class="s2">if </span><span class="s1">int(rank) &lt; int(name_data[name][year]):</span>
+                <span class="s1">name_data[name][year] = rank</span>
+        <span class="s3"># if year is not added, add the year-&gt;rank pair</span>
+        <span class="s2">else</span><span class="s1">:</span>
+            <span class="s1">name_data[name][year] = rank</span>
+    <span class="s2">else</span><span class="s1">:</span>
+        <span class="s1">name_data[name] = {}</span>
+        <span class="s1">name_data[name][year] = rank</span>
+
+
+<span class="s2">def </span><span class="s1">add_file(name_data</span><span class="s2">, </span><span class="s1">filename):</span>
+    <span class="s0">&quot;&quot;&quot; 
+    Reads the information from the specified file and populates the name_data 
+    dict with the data found in the file. 
+ 
+    Input: 
+        name_data (dict): dict holding baby name data 
+        filename (str): name of the file holding baby name data 
+ 
+    Output: 
+        This function modifies the name_data dict to store information from 
+        the provided file name. This function does not return any value. 
+ 
+    &quot;&quot;&quot;</span>
+    <span class="s2">with </span><span class="s1">open(filename</span><span class="s2">, </span><span class="s4">'r'</span><span class="s1">) </span><span class="s2">as </span><span class="s1">f:</span>
+        <span class="s3"># the first line is year</span>
+        <span class="s1">year = f.readline()</span>
+        <span class="s1">year = year.strip()</span>
+        <span class="s3"># start from the second line</span>
+        <span class="s2">for </span><span class="s1">line </span><span class="s2">in </span><span class="s1">f:</span>
+            <span class="s1">name_lst = line.split(</span><span class="s4">','</span><span class="s1">)</span>
+            <span class="s1">rank = name_lst[</span><span class="s5">0</span><span class="s1">].strip()</span>
+            <span class="s3"># male's name</span>
+            <span class="s1">name1 = name_lst[</span><span class="s5">1</span><span class="s1">].strip()</span>
+            <span class="s3"># female's name</span>
+            <span class="s1">name2 = name_lst[</span><span class="s5">2</span><span class="s1">].strip()</span>
+            <span class="s1">add_data_for_name(name_data</span><span class="s2">, </span><span class="s1">year</span><span class="s2">, </span><span class="s1">rank</span><span class="s2">, </span><span class="s1">name1)</span>
+            <span class="s1">add_data_for_name(name_data</span><span class="s2">, </span><span class="s1">year</span><span class="s2">, </span><span class="s1">rank</span><span class="s2">, </span><span class="s1">name2)</span>
+
+
+<span class="s2">def </span><span class="s1">read_files(filenames):</span>
+    <span class="s0">&quot;&quot;&quot; 
+    Reads the data from all files specified in the provided list 
+    into a single name_data dict and then returns that dict. 
+ 
+    Input: 
+        filenames (List[str]): a list of filenames containing baby name data 
+ 
+    Returns: 
+        name_data (dict): the dict storing all baby name data in a structured manner 
+    &quot;&quot;&quot;</span>
+    <span class="s1">name_data = {}</span>
+    <span class="s2">for </span><span class="s1">filename </span><span class="s2">in </span><span class="s1">filenames:</span>
+        <span class="s1">add_file(name_data</span><span class="s2">, </span><span class="s1">filename)</span>
+    <span class="s2">return </span><span class="s1">name_data</span>
+
+
+<span class="s2">def </span><span class="s1">search_names(name_data</span><span class="s2">, </span><span class="s1">target):</span>
+    <span class="s0">&quot;&quot;&quot; 
+    Given a name_data dict that stores baby name information and a target string, 
+    returns a list of all names in the dict that contain the target string. This 
+    function should be case-insensitive with respect to the target string. 
+ 
+    Input: 
+        name_data (dict): a dict containing baby name data organized by name 
+        target (str): a string to look for in the names contained within name_data 
+ 
+    Returns: 
+        matching_names (List[str]): a list of all names from name_data that contain 
+                                    the target string 
+ 
+    &quot;&quot;&quot;</span>
+    <span class="s1">matching_names = []</span>
+    <span class="s2">for </span><span class="s1">name </span><span class="s2">in </span><span class="s1">name_data:</span>
+        <span class="s2">if </span><span class="s1">case_insensitive(target) </span><span class="s2">in </span><span class="s1">case_insensitive(name):</span>
+            <span class="s1">matching_names.append(name)</span>
+    <span class="s2">return </span><span class="s1">matching_names</span>
+
+
+<span class="s2">def </span><span class="s1">case_insensitive(string):</span>
+    <span class="s1">new_string = </span><span class="s4">''</span>
+    <span class="s2">for </span><span class="s1">ch </span><span class="s2">in </span><span class="s1">string:</span>
+        <span class="s2">if </span><span class="s1">ch.isupper():</span>
+            <span class="s1">new_string += ch.lower()</span>
+        <span class="s2">else</span><span class="s1">:</span>
+            <span class="s1">new_string += ch</span>
+    <span class="s2">return </span><span class="s1">new_string</span>
+
+
+<span class="s2">def </span><span class="s1">print_names(name_data):</span>
+    <span class="s0">&quot;&quot;&quot; 
+    (provided, DO NOT MODIFY) 
+    Given a name_data dict, print out all its data, one name per line. 
+    The names are printed in alphabetical order, 
+    with the corresponding years data displayed in increasing order. 
+ 
+    Input: 
+        name_data (dict): a dict containing baby name data organized by name 
+    Returns: 
+        This function does not return anything 
+    &quot;&quot;&quot;</span>
+    <span class="s2">for </span><span class="s1">key</span><span class="s2">, </span><span class="s1">value </span><span class="s2">in </span><span class="s1">sorted(name_data.items()):</span>
+        <span class="s1">print(key</span><span class="s2">, </span><span class="s1">sorted(value.items()))</span>
+
+
+<span class="s2">def </span><span class="s1">main():</span>
+    <span class="s3"># (provided, DO NOT MODIFY)</span>
+    <span class="s1">args = sys.argv[</span><span class="s5">1</span><span class="s1">:]</span>
+    <span class="s3"># Two command line forms</span>
+    <span class="s3"># 1. file1 file2 file3 ..</span>
+    <span class="s3"># 2. -search target file1 file2 file3 ..</span>
+
+    <span class="s3"># Assume no search, so list of filenames to read</span>
+    <span class="s3"># is the args list</span>
+    <span class="s1">filenames = args</span>
+
+    <span class="s3"># Check if we are doing search, set target variable</span>
+    <span class="s1">target = </span><span class="s4">''</span>
+    <span class="s2">if </span><span class="s1">len(args) &gt;= </span><span class="s5">2 </span><span class="s2">and </span><span class="s1">args[</span><span class="s5">0</span><span class="s1">] == </span><span class="s4">'-search'</span><span class="s1">:</span>
+        <span class="s1">target = args[</span><span class="s5">1</span><span class="s1">]</span>
+        <span class="s1">filenames = args[</span><span class="s5">2</span><span class="s1">:]  </span><span class="s3"># Update filenames to skip first 2</span>
+
+    <span class="s3"># Read in all the filenames: baby-1990.txt, baby-2000.txt, ...</span>
+    <span class="s1">names = read_files(filenames)</span>
+
+    <span class="s3"># Either we do a search or just print everything.</span>
+    <span class="s2">if </span><span class="s1">len(target) &gt; </span><span class="s5">0</span><span class="s1">:</span>
+        <span class="s1">search_results = search_names(names</span><span class="s2">, </span><span class="s1">target)</span>
+        <span class="s2">for </span><span class="s1">name </span><span class="s2">in </span><span class="s1">search_results:</span>
+            <span class="s1">print(name)</span>
+    <span class="s2">else</span><span class="s1">:</span>
+        <span class="s1">print_names(names)</span>
+
+
+<span class="s2">if </span><span class="s1">__name__ == </span><span class="s4">'__main__'</span><span class="s1">:</span>
+    <span class="s1">main()</span>
+</pre>
+</body>
+</html>

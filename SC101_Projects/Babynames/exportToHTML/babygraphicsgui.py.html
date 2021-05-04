@@ -1,0 +1,114 @@
+<html>
+<head>
+<title>babygraphicsgui.py</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #629755; font-style: italic;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #cc7832;}
+.s3 { color: #808080;}
+.s4 { color: #6a8759;}
+.s5 { color: #6897bb;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+babygraphicsgui.py</font>
+</center></td></tr></table>
+<pre><span class="s0">&quot;&quot;&quot; 
+Stanford CS106AP Baby Names Project 
+Adapted from Nick Parlante's Baby Names assignment by 
+Sonja Johnson-Yu, Kylie Jue, and Nick Bowman. 
+ 
+This file defines the functions needed to create the GUI for 
+the Baby Names project. 
+ 
+You should not modify any of the contents of this file. 
+&quot;&quot;&quot;</span>
+
+<span class="s2">import </span><span class="s1">tkinter</span>
+
+
+<span class="s3"># provided function to build the GUI</span>
+<span class="s2">def </span><span class="s1">make_gui(top</span><span class="s2">, </span><span class="s1">width</span><span class="s2">, </span><span class="s1">height</span><span class="s2">, </span><span class="s1">names</span><span class="s2">, </span><span class="s1">draw_names</span><span class="s2">, </span><span class="s1">search_names):</span>
+    <span class="s0">&quot;&quot;&quot; 
+    Set up the GUI elements for Baby Names, returning the Canvas to use. 
+    top is TK root, width/height is canvas size, names is BabyNames dict. 
+    &quot;&quot;&quot;</span>
+    <span class="s3"># name entry field</span>
+    <span class="s1">label = tkinter.Label(top</span><span class="s2">, </span><span class="s1">text=</span><span class="s4">&quot;Names:&quot;</span><span class="s1">)</span>
+    <span class="s1">label.grid(row=</span><span class="s5">0</span><span class="s2">, </span><span class="s1">column=</span><span class="s5">0</span><span class="s2">, </span><span class="s1">sticky=</span><span class="s4">'w'</span><span class="s1">)</span>
+    <span class="s1">entry = tkinter.Entry(top</span><span class="s2">, </span><span class="s1">width=</span><span class="s5">40</span><span class="s2">, </span><span class="s1">name=</span><span class="s4">'entry'</span><span class="s2">, </span><span class="s1">borderwidth=</span><span class="s5">2</span><span class="s1">)</span>
+    <span class="s1">entry.grid(row=</span><span class="s5">0</span><span class="s2">, </span><span class="s1">column=</span><span class="s5">1</span><span class="s2">, </span><span class="s1">sticky=</span><span class="s4">'w'</span><span class="s1">)</span>
+    <span class="s1">entry.focus()</span>
+    <span class="s1">error_out = tkinter.Text(top</span><span class="s2">, </span><span class="s1">height=</span><span class="s5">2</span><span class="s2">, </span><span class="s1">width=</span><span class="s5">70</span><span class="s2">, </span><span class="s1">name=</span><span class="s4">'errorout'</span><span class="s2">, </span><span class="s1">borderwidth=</span><span class="s5">2</span><span class="s1">)</span>
+    <span class="s1">error_out.grid(row=</span><span class="s5">0</span><span class="s2">, </span><span class="s1">column=</span><span class="s5">2</span><span class="s2">, </span><span class="s1">sticky=</span><span class="s4">'w'</span><span class="s1">)</span>
+
+    <span class="s3"># canvas for drawing</span>
+    <span class="s1">canvas = tkinter.Canvas(top</span><span class="s2">, </span><span class="s1">width=width</span><span class="s2">, </span><span class="s1">height=height</span><span class="s2">, </span><span class="s1">name=</span><span class="s4">'canvas'</span><span class="s1">)</span>
+    <span class="s1">canvas.grid(row=</span><span class="s5">1</span><span class="s2">, </span><span class="s1">columnspan=</span><span class="s5">12</span><span class="s2">, </span><span class="s1">sticky=</span><span class="s4">'w'</span><span class="s1">)</span>
+
+    <span class="s1">space = tkinter.LabelFrame(top</span><span class="s2">, </span><span class="s1">width=</span><span class="s5">10</span><span class="s2">, </span><span class="s1">height=</span><span class="s5">10</span><span class="s2">, </span><span class="s1">borderwidth=</span><span class="s5">0</span><span class="s1">)</span>
+    <span class="s1">space.grid(row=</span><span class="s5">2</span><span class="s2">, </span><span class="s1">columnspan=</span><span class="s5">12</span><span class="s2">, </span><span class="s1">sticky=</span><span class="s4">'w'</span><span class="s1">)</span>
+
+    <span class="s3"># Search field etc. at the bottom</span>
+    <span class="s1">label = tkinter.Label(top</span><span class="s2">, </span><span class="s1">text=</span><span class="s4">&quot;Search:&quot;</span><span class="s1">)</span>
+    <span class="s1">label.grid(row=</span><span class="s5">3</span><span class="s2">, </span><span class="s1">column=</span><span class="s5">0</span><span class="s2">, </span><span class="s1">sticky=</span><span class="s4">'w'</span><span class="s1">)</span>
+    <span class="s1">search_entry = tkinter.Entry(top</span><span class="s2">, </span><span class="s1">width=</span><span class="s5">40</span><span class="s2">, </span><span class="s1">name=</span><span class="s4">'searchentry'</span><span class="s1">)</span>
+    <span class="s1">search_entry.grid(row=</span><span class="s5">3</span><span class="s2">, </span><span class="s1">column=</span><span class="s5">1</span><span class="s2">, </span><span class="s1">sticky=</span><span class="s4">'w'</span><span class="s1">)</span>
+    <span class="s1">search_out = tkinter.Text(top</span><span class="s2">, </span><span class="s1">height=</span><span class="s5">2</span><span class="s2">, </span><span class="s1">width=</span><span class="s5">70</span><span class="s2">, </span><span class="s1">name=</span><span class="s4">'searchout'</span><span class="s2">, </span><span class="s1">borderwidth=</span><span class="s5">2</span><span class="s1">)</span>
+    <span class="s1">search_out.grid(row=</span><span class="s5">3</span><span class="s2">, </span><span class="s1">column=</span><span class="s5">2</span><span class="s2">, </span><span class="s1">sticky=</span><span class="s4">'w'</span><span class="s1">)</span>
+
+    <span class="s3"># When &lt;return&gt; key is hit in a text field .. connect to the handle_draw()</span>
+    <span class="s3"># and handle_search() functions to do the work.</span>
+    <span class="s1">entry.bind(</span><span class="s4">&quot;&lt;Return&gt;&quot;</span><span class="s2">, lambda </span><span class="s1">event: handle_draw(entry</span><span class="s2">, </span><span class="s1">canvas</span><span class="s2">, </span><span class="s1">names</span><span class="s2">, </span><span class="s1">error_out</span><span class="s2">, </span><span class="s1">draw_names))</span>
+    <span class="s1">search_entry.bind(</span><span class="s4">&quot;&lt;Return&gt;&quot;</span><span class="s2">, lambda </span><span class="s1">event: handle_search(search_entry</span><span class="s2">, </span><span class="s1">search_out</span><span class="s2">, </span><span class="s1">names</span><span class="s2">, </span><span class="s1">search_names))</span>
+
+    <span class="s1">top.update()</span>
+    <span class="s2">return </span><span class="s1">canvas</span>
+
+
+<span class="s2">def </span><span class="s1">handle_draw(entry</span><span class="s2">, </span><span class="s1">canvas</span><span class="s2">, </span><span class="s1">names</span><span class="s2">, </span><span class="s1">error_out</span><span class="s2">, </span><span class="s1">draw):</span>
+    <span class="s0">&quot;&quot;&quot; 
+    (provided) 
+    Called when &lt;return&gt; key hit in given entry text field. 
+    Gets search text from given entry, draws results 
+    to the given canvas. 
+    &quot;&quot;&quot;</span>
+    <span class="s1">text = entry.get()</span>
+    <span class="s1">lookups = [name[</span><span class="s5">0</span><span class="s1">].upper() + name[</span><span class="s5">1</span><span class="s1">:].lower() </span><span class="s2">for </span><span class="s1">name </span><span class="s2">in </span><span class="s1">text.split()]  </span><span class="s3"># handles casing</span>
+
+    <span class="s1">invalid_names = [name </span><span class="s2">for </span><span class="s1">name </span><span class="s2">in </span><span class="s1">lookups </span><span class="s2">if </span><span class="s1">name </span><span class="s2">not in </span><span class="s1">names]</span>
+    <span class="s1">lookups = [name </span><span class="s2">for </span><span class="s1">name </span><span class="s2">in </span><span class="s1">lookups </span><span class="s2">if </span><span class="s1">name </span><span class="s2">in </span><span class="s1">names]</span>
+
+    <span class="s3"># Handle error message</span>
+    <span class="s1">error_out.delete(</span><span class="s4">'1.0'</span><span class="s2">, </span><span class="s1">tkinter.END)</span>
+    <span class="s2">if </span><span class="s1">invalid_names:</span>
+        <span class="s2">if </span><span class="s1">len(invalid_names) == </span><span class="s5">1</span><span class="s1">:</span>
+            <span class="s1">out = invalid_names[</span><span class="s5">0</span><span class="s1">] + </span><span class="s4">' is not contained in the name database.'</span>
+        <span class="s2">else</span><span class="s1">:</span>
+            <span class="s1">out = </span><span class="s4">', '</span><span class="s1">.join(invalid_names) + </span><span class="s4">' are not contained in the name database.'</span>
+        <span class="s1">error_out.insert(</span><span class="s4">'1.0'</span><span class="s2">, </span><span class="s1">out)</span>
+
+    <span class="s1">draw(canvas</span><span class="s2">, </span><span class="s1">names</span><span class="s2">, </span><span class="s1">lookups)</span>
+
+
+<span class="s2">def </span><span class="s1">handle_search(search_entry</span><span class="s2">, </span><span class="s1">search_out</span><span class="s2">, </span><span class="s1">names</span><span class="s2">, </span><span class="s1">search):</span>
+    <span class="s0">&quot;&quot;&quot; 
+    (provided) Called for &lt;return&gt; key in lower search field. 
+    Calls babynames.search() and displays results in GUI. 
+    Gets search target from given search_entry, puts results 
+    in given search_out text area. 
+    &quot;&quot;&quot;</span>
+    <span class="s1">target = search_entry.get().strip()</span>
+    <span class="s2">if </span><span class="s1">target:</span>
+        <span class="s3"># Call the search_names function in babynames.py</span>
+        <span class="s1">result = search(names</span><span class="s2">, </span><span class="s1">target)</span>
+        <span class="s1">out = </span><span class="s4">' '</span><span class="s1">.join(result)</span>
+        <span class="s1">search_out.delete(</span><span class="s4">'1.0'</span><span class="s2">, </span><span class="s1">tkinter.END)</span>
+        <span class="s1">search_out.insert(</span><span class="s4">'1.0'</span><span class="s2">, </span><span class="s1">out)</span>
+</pre>
+</body>
+</html>

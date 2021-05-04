@@ -1,0 +1,187 @@
+<html>
+<head>
+<title>babygraphics.py</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #629755; font-style: italic;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #cc7832;}
+.s3 { color: #6a8759;}
+.s4 { color: #6897bb;}
+.s5 { color: #808080;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+babygraphics.py</font>
+</center></td></tr></table>
+<pre><span class="s0">&quot;&quot;&quot; 
+SC101 Baby Names Project 
+Adapted from Nick Parlante's Baby Names assignment by 
+Jerry Liao. 
+ 
+YOUR DESCRIPTION HERE 
+&quot;&quot;&quot;</span>
+
+<span class="s2">import </span><span class="s1">tkinter</span>
+<span class="s2">import </span><span class="s1">babynames</span>
+<span class="s2">import </span><span class="s1">babygraphicsgui </span><span class="s2">as </span><span class="s1">gui</span>
+
+<span class="s1">FILENAMES = [</span>
+    <span class="s3">'data/full/baby-1900.txt'</span><span class="s2">, </span><span class="s3">'data/full/baby-1910.txt'</span><span class="s2">,</span>
+    <span class="s3">'data/full/baby-1920.txt'</span><span class="s2">, </span><span class="s3">'data/full/baby-1930.txt'</span><span class="s2">,</span>
+    <span class="s3">'data/full/baby-1940.txt'</span><span class="s2">, </span><span class="s3">'data/full/baby-1950.txt'</span><span class="s2">,</span>
+    <span class="s3">'data/full/baby-1960.txt'</span><span class="s2">, </span><span class="s3">'data/full/baby-1970.txt'</span><span class="s2">,</span>
+    <span class="s3">'data/full/baby-1980.txt'</span><span class="s2">, </span><span class="s3">'data/full/baby-1990.txt'</span><span class="s2">,</span>
+    <span class="s3">'data/full/baby-2000.txt'</span><span class="s2">, </span><span class="s3">'data/full/baby-2010.txt'</span>
+<span class="s1">]</span>
+<span class="s1">CANVAS_WIDTH = </span><span class="s4">1000</span>
+<span class="s1">CANVAS_HEIGHT = </span><span class="s4">600</span>
+<span class="s1">YEARS = [</span><span class="s4">1900</span><span class="s2">, </span><span class="s4">1910</span><span class="s2">, </span><span class="s4">1920</span><span class="s2">, </span><span class="s4">1930</span><span class="s2">, </span><span class="s4">1940</span><span class="s2">, </span><span class="s4">1950</span><span class="s2">, </span><span class="s4">1960</span><span class="s2">, </span><span class="s4">1970</span><span class="s2">, </span><span class="s4">1980</span><span class="s2">, </span><span class="s4">1990</span><span class="s2">, </span><span class="s4">2000</span><span class="s2">, </span><span class="s4">2010</span><span class="s1">]</span>
+<span class="s1">GRAPH_MARGIN_SIZE = </span><span class="s4">20</span>
+<span class="s1">COLORS = [</span><span class="s3">'red'</span><span class="s2">, </span><span class="s3">'purple'</span><span class="s2">, </span><span class="s3">'green'</span><span class="s2">, </span><span class="s3">'blue'</span><span class="s1">]</span>
+<span class="s1">TEXT_DX = </span><span class="s4">2</span>
+<span class="s1">LINE_WIDTH = </span><span class="s4">2</span>
+<span class="s1">MAX_RANK = </span><span class="s4">1000</span>
+
+
+<span class="s2">def </span><span class="s1">get_x_coordinate(width</span><span class="s2">, </span><span class="s1">year_index):</span>
+    <span class="s0">&quot;&quot;&quot; 
+    Given the width of the canvas and the index of the current year 
+    in the YEARS list, returns the x coordinate of the vertical 
+    line associated with that year. 
+ 
+    Input: 
+        width (int): The width of the canvas 
+        year_index (int): The index of the current year in the YEARS list 
+    Returns: 
+        x_coordinate (int): The x coordinate of the vertical line associated 
+                              with the specified year. 
+    &quot;&quot;&quot;</span>
+    <span class="s1">x = (width - GRAPH_MARGIN_SIZE*</span><span class="s4">2</span><span class="s1">)/(len(YEARS))*year_index + GRAPH_MARGIN_SIZE</span>
+    <span class="s2">return </span><span class="s1">x</span>
+
+
+<span class="s2">def </span><span class="s1">draw_fixed_lines(canvas):</span>
+    <span class="s0">&quot;&quot;&quot; 
+    Erases all existing information on the given canvas and then 
+    draws the fixed background lines on it. 
+ 
+    Input: 
+        canvas (Tkinter Canvas): The canvas on which we are drawing. 
+ 
+    Returns: 
+        This function does not return any value. 
+    &quot;&quot;&quot;</span>
+    <span class="s1">canvas.delete(</span><span class="s3">'all'</span><span class="s1">)            </span><span class="s5"># delete all existing lines from the canvas</span>
+
+    <span class="s5"># Write your code below this line</span>
+    <span class="s5"># horizontal lines</span>
+    <span class="s1">x1 = GRAPH_MARGIN_SIZE</span>
+    <span class="s1">x2 = CANVAS_WIDTH - GRAPH_MARGIN_SIZE</span>
+    <span class="s1">y1 = GRAPH_MARGIN_SIZE</span>
+    <span class="s1">y2 = CANVAS_HEIGHT - GRAPH_MARGIN_SIZE</span>
+    <span class="s1">canvas.create_line(x1</span><span class="s2">, </span><span class="s1">y1</span><span class="s2">, </span><span class="s1">x2</span><span class="s2">, </span><span class="s1">y1</span><span class="s2">, </span><span class="s1">width=LINE_WIDTH)</span>
+    <span class="s1">canvas.create_line(x1</span><span class="s2">, </span><span class="s1">y2</span><span class="s2">, </span><span class="s1">x2</span><span class="s2">, </span><span class="s1">y2</span><span class="s2">, </span><span class="s1">width=LINE_WIDTH)</span>
+    <span class="s5"># vertical line</span>
+    <span class="s1">y_v1 = </span><span class="s4">0</span>
+    <span class="s1">y_v2 = CANVAS_HEIGHT</span>
+    <span class="s2">for </span><span class="s1">year_index </span><span class="s2">in </span><span class="s1">range(len(YEARS)):</span>
+        <span class="s1">x = get_x_coordinate(CANVAS_WIDTH</span><span class="s2">, </span><span class="s1">year_index)</span>
+        <span class="s1">canvas.create_line(x</span><span class="s2">, </span><span class="s1">y_v1</span><span class="s2">, </span><span class="s1">x</span><span class="s2">, </span><span class="s1">y_v2</span><span class="s2">, </span><span class="s1">width=LINE_WIDTH)</span>
+        <span class="s1">canvas.create_text(x+TEXT_DX</span><span class="s2">, </span><span class="s1">y2</span><span class="s2">, </span><span class="s1">text=YEARS[year_index]</span><span class="s2">, </span><span class="s1">anchor=tkinter.NW)</span>
+
+    <span class="s5">#################################</span>
+
+
+<span class="s2">def </span><span class="s1">draw_names(canvas</span><span class="s2">, </span><span class="s1">name_data</span><span class="s2">, </span><span class="s1">lookup_names):</span>
+    <span class="s0">&quot;&quot;&quot; 
+    Given a dict of baby name data and a list of name, plots 
+    the historical trend of those names onto the canvas. 
+ 
+    Input: 
+        canvas (Tkinter Canvas): The canvas on which we are drawing. 
+        name_data (dict): Dictionary holding baby name data 
+        lookup_names (List[str]): A list of names whose data you want to plot 
+ 
+    Returns: 
+        This function does not return any value. 
+    &quot;&quot;&quot;</span>
+    <span class="s1">draw_fixed_lines(canvas)        </span><span class="s5"># draw the fixed background grid</span>
+    <span class="s5"># Write your code below this line</span>
+    <span class="s5"># each name</span>
+    <span class="s2">for </span><span class="s1">lookup_name </span><span class="s2">in </span><span class="s1">lookup_names:</span>
+        <span class="s5"># create color</span>
+        <span class="s1">color = lookup_names.index(lookup_name) % </span><span class="s4">4</span>
+        <span class="s5"># each year</span>
+        <span class="s2">for </span><span class="s1">year_index </span><span class="s2">in </span><span class="s1">range(len(YEARS) - </span><span class="s4">1</span><span class="s1">):</span>
+            <span class="s5"># create coordinators</span>
+            <span class="s1">x1 = get_x_coordinate(CANVAS_WIDTH</span><span class="s2">, </span><span class="s1">year_index)</span>
+            <span class="s1">x2 = get_x_coordinate(CANVAS_WIDTH</span><span class="s2">, </span><span class="s1">year_index + </span><span class="s4">1</span><span class="s1">)</span>
+            <span class="s1">y1 = get_y_coordinate_and_rank_text_for_name(year_index</span><span class="s2">, </span><span class="s1">name_data</span><span class="s2">, </span><span class="s1">lookup_name)[</span><span class="s4">0</span><span class="s1">]</span>
+            <span class="s1">y2 = get_y_coordinate_and_rank_text_for_name(year_index+</span><span class="s4">1</span><span class="s2">, </span><span class="s1">name_data</span><span class="s2">, </span><span class="s1">lookup_name)[</span><span class="s4">0</span><span class="s1">]</span>
+            <span class="s5"># create line</span>
+            <span class="s1">canvas.create_line(x1</span><span class="s2">, </span><span class="s1">y1</span><span class="s2">, </span><span class="s1">x2</span><span class="s2">, </span><span class="s1">y2</span><span class="s2">, </span><span class="s1">width=LINE_WIDTH</span><span class="s2">, </span><span class="s1">fill=COLORS[color])</span>
+            <span class="s5"># create rank shown on text</span>
+            <span class="s1">rank_show = get_y_coordinate_and_rank_text_for_name(year_index</span><span class="s2">, </span><span class="s1">name_data</span><span class="s2">, </span><span class="s1">lookup_name)[</span><span class="s4">1</span><span class="s1">]</span>
+            <span class="s5"># create text</span>
+            <span class="s1">canvas.create_text(x1 + TEXT_DX</span><span class="s2">, </span><span class="s1">y1</span><span class="s2">, </span><span class="s1">text=lookup_name + </span><span class="s3">' ' </span><span class="s1">+ str(rank_show)</span><span class="s2">, </span><span class="s1">fill=COLORS[color]</span><span class="s2">,</span>
+                               <span class="s1">anchor=tkinter.SW)</span>
+        <span class="s5"># the last text</span>
+        <span class="s1">last_index = len(YEARS)-</span><span class="s4">1</span>
+        <span class="s1">x_last = get_x_coordinate(CANVAS_WIDTH</span><span class="s2">, </span><span class="s1">last_index)</span>
+        <span class="s1">y_last = get_y_coordinate_and_rank_text_for_name(last_index</span><span class="s2">, </span><span class="s1">name_data</span><span class="s2">, </span><span class="s1">lookup_name)[</span><span class="s4">0</span><span class="s1">]</span>
+        <span class="s1">rank_show = get_y_coordinate_and_rank_text_for_name(last_index</span><span class="s2">, </span><span class="s1">name_data</span><span class="s2">, </span><span class="s1">lookup_name)[</span><span class="s4">1</span><span class="s1">]</span>
+        <span class="s1">canvas.create_text(x_last + TEXT_DX</span><span class="s2">, </span><span class="s1">y_last</span><span class="s2">, </span><span class="s1">text=lookup_name + </span><span class="s3">' ' </span><span class="s1">+ str(rank_show)</span><span class="s2">,</span>
+                           <span class="s1">fill=COLORS[color]</span><span class="s2">, </span><span class="s1">anchor=tkinter.SW)</span>
+    <span class="s5">#################################</span>
+
+
+<span class="s2">def </span><span class="s1">get_y_coordinate_and_rank_text_for_name(year_index</span><span class="s2">, </span><span class="s1">name_data</span><span class="s2">, </span><span class="s1">lookup_name):</span>
+    <span class="s0">&quot;&quot;&quot; 
+    :param year_index: the given year_index 
+    :param name_data: dict, Dictionary holding baby name data 
+    :param lookup_name: the name whose data you want to plot 
+    :return: this function will return the y_coordinate and the rank text of the name in a given year. 
+    &quot;&quot;&quot;</span>
+    <span class="s2">if </span><span class="s1">str(YEARS[year_index]) </span><span class="s2">in </span><span class="s1">name_data[lookup_name]:</span>
+        <span class="s1">rank_show = name_data[lookup_name][str(YEARS[year_index])]</span>
+        <span class="s5"># adjust the ratio to show 1000 on (600-40+20)</span>
+        <span class="s1">y = int(rank_show)*(CANVAS_HEIGHT-GRAPH_MARGIN_SIZE*</span><span class="s4">2</span><span class="s1">)//</span><span class="s4">1000</span><span class="s1">+GRAPH_MARGIN_SIZE</span>
+    <span class="s2">else</span><span class="s1">:</span>
+        <span class="s5"># if rank &gt; 1000, than the text becomes *</span>
+        <span class="s1">y = CANVAS_HEIGHT-GRAPH_MARGIN_SIZE</span>
+        <span class="s1">rank_show = </span><span class="s3">'*'</span>
+    <span class="s2">return </span><span class="s1">y</span><span class="s2">, </span><span class="s1">rank_show</span>
+
+
+<span class="s5"># main() code is provided, feel free to read through it but DO NOT MODIFY</span>
+<span class="s2">def </span><span class="s1">main():</span>
+    <span class="s0">&quot;&quot;&quot; 
+    Given a name, this program will give out the baby name usage in each year. 
+    :return: 
+    &quot;&quot;&quot;</span>
+    <span class="s5"># Load data</span>
+    <span class="s1">name_data = babynames.read_files(FILENAMES)</span>
+
+    <span class="s5"># Create the window and the canvas</span>
+    <span class="s1">top = tkinter.Tk()</span>
+    <span class="s1">top.wm_title(</span><span class="s3">'Baby Names'</span><span class="s1">)</span>
+    <span class="s1">canvas = gui.make_gui(top</span><span class="s2">, </span><span class="s1">CANVAS_WIDTH</span><span class="s2">, </span><span class="s1">CANVAS_HEIGHT</span><span class="s2">, </span><span class="s1">name_data</span><span class="s2">, </span><span class="s1">draw_names</span><span class="s2">, </span><span class="s1">babynames.search_names)</span>
+
+    <span class="s5"># Call draw_fixed_lines() once at startup so we have the lines</span>
+    <span class="s5"># even before the user types anything.</span>
+    <span class="s1">draw_fixed_lines(canvas)</span>
+
+    <span class="s5"># This line starts the graphical loop that is responsible for</span>
+    <span class="s5"># processing user interactions and plotting data</span>
+    <span class="s1">top.mainloop()</span>
+
+
+<span class="s2">if </span><span class="s1">__name__ == </span><span class="s3">'__main__'</span><span class="s1">:</span>
+    <span class="s1">main()</span>
+</pre>
+</body>
+</html>
